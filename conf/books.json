@@ -1,0 +1,42 @@
+{
+  "settings": {
+    "number_of_shards": 1,
+    "max_ngram_diff": "7",
+    "analysis": {
+      "analyzer": {
+        "search_analyzer": {
+          "type": "custom",
+          "filter": [
+            "lowercase"
+          ],
+          "tokenizer": "search_tokenizer"
+        }
+      },
+      "tokenizer": {
+        "search_tokenizer": {
+          "token_chars": [
+            "letter",
+            "digit"
+          ],
+          "min_gram": "2",
+          "max_gram": "7",
+          "type": "ngram"
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "id": {
+        "type": "keyword"
+      },
+      "name": {
+        "type": "text"
+      },
+      "author": {
+        "type": "text",
+        "analyzer": "search_analyzer"
+      }
+    }
+  }
+}
