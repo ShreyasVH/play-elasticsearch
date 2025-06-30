@@ -38,18 +38,17 @@ public class ElasticService {
         final CredentialsProvider credentialsProvider =
                 new BasicCredentialsProvider();
         credentialsProvider.setCredentials(AuthScope.ANY,
-                new UsernamePasswordCredentials("elastic", "password"));
-
-//        String fingerprint = "f645083f2f1a53de24471b49062abba4704c84c836a178755635cc2294704ba8";
-//
-//        SSLContext sslContext = TransportUtils
-//                .sslContextFromCaFingerprint(fingerprint);
+                new UsernamePasswordCredentials(System.getenv("ELASTIC_USERNAME"), System.getenv("ELASTIC_PASSWORD")));
 
         RestClientBuilder builder = RestClient.builder(
-                new HttpHost("localhost", 9200, "http"))
-                .setHttpClientConfigCallback(httpClientBuilder -> httpClientBuilder
-//                        .setSSLContext(sslContext)
-                        .setDefaultCredentialsProvider(credentialsProvider));
+                new HttpHost(System.getenv("ELASTIC_IP_HTTP"), Integer.parseInt(System.getenv("ELASTIC_PORT_HTTP")), System.getenv("ELASTIC_SCHEME")));
+
+        if(System.getenv("ELASTIC_USE_CREDENTIALS").equals("1"))
+        {
+            builder.setHttpClientConfigCallback(httpClientBuilder -> httpClientBuilder
+                    .setDefaultCredentialsProvider(credentialsProvider));
+        }
+
 
         // Create the low-level client
         RestClient restClient = builder.build();
@@ -62,8 +61,8 @@ public class ElasticService {
         return new ElasticsearchClient(transport);
     }
 
-    public boolean index(String id, Object document) throws IOException {
-        IndexResponse response = client.index(i -> i.index("books").id(id).document(document));
+    public boolean index(String id, Object document, String index) throws IOException {
+        IndexResponse response = client.index(i -> i.index(index).id(id).document(document));
         return response.result().equals(Result.Created);
     }
 
@@ -76,6 +75,7 @@ public class ElasticService {
             String sh = "sh";
         } catch (Exception ex) {
             String sh = "sh";
+            ex.printStackTrace();
         }
 
         return returnValue;

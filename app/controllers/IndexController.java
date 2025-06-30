@@ -60,6 +60,21 @@ public class IndexController extends Controller {
 		return ok(Json.toJson(result));
 	}
 
+	public Result getAll(Http.Request request)
+	{
+		BoolQuery.Builder query = QueryBuilders.bool();
+
+		SearchRequest searchRequest = SearchRequest.of(b -> b
+				.index(System.getenv("ELASTIC_INDEX_BOOKS"))
+				.query(query.build()._toQuery()
+				)
+		);
+
+		List<BookIndex> result = elasticService.search(searchRequest, BookIndex.class);
+
+		return ok(Json.toJson(result));
+	}
+
 	public Result post(Http.Request request)
 	{
 		BookRequest bookRequest = null;
@@ -67,6 +82,7 @@ public class IndexController extends Controller {
 			bookRequest = Utils.convertObject(request.body().asJson(), BookRequest.class);
 		} catch (Exception ex) {
 			String sh = "sh";
+			ex.printStackTrace();
 		}
 
 		UUID uuid = UUID.randomUUID();
@@ -74,9 +90,10 @@ public class IndexController extends Controller {
 		BookIndex bookIndex = new BookIndex(id, bookRequest.getName(), bookRequest.getAuthor());
 
 		try {
-			elasticService.index(id, bookIndex);
+			elasticService.index(id, bookIndex, System.getenv("ELASTIC_INDEX_BOOKS"));
 		} catch (Exception ex) {
 			String sh = "sh";
+			ex.printStackTrace();
 		}
 
 		return ok("POST REQUEST with payload: " + request.body().asJson().toString());

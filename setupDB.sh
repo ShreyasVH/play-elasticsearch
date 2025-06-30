@@ -1,0 +1,1 @@
+curl -X PUT "https://$ELASTIC_USERNAME:$ELASTIC_PASSWORD@$ELASTIC_IP_HTTP:$ELASTIC_PORT_HTTP/$ELASTIC_INDEX_BOOKS" -H "Content-Type: application/json" -d @conf/books.json > /dev/null 2>&1
