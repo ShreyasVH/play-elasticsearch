@@ -66,8 +66,9 @@ public class IndexController extends Controller {
 
 		SearchRequest searchRequest = SearchRequest.of(b -> b
 				.index(System.getenv("ELASTIC_INDEX_BOOKS"))
+				.size(1000)
 				.query(query.build()._toQuery()
-				)
+			)
 		);
 
 		List<BookIndex> result = elasticService.search(searchRequest, BookIndex.class);
