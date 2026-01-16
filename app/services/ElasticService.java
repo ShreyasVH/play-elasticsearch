@@ -9,17 +9,17 @@ import co.elastic.clients.transport.ElasticsearchTransport;
 import co.elastic.clients.transport.TransportUtils;
 import co.elastic.clients.transport.rest_client.RestClientTransport;
 import com.google.inject.Inject;
-import org.apache.http.HttpHost;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
-import org.elasticsearch.client.RestClient;
-import org.elasticsearch.client.RestClientBuilder;
+//import org.apache.http.HttpHost;
+//import org.apache.http.auth.AuthScope;
+//import org.apache.http.auth.UsernamePasswordCredentials;
+//import org.apache.http.client.CredentialsProvider;
+//import org.apache.http.impl.client.BasicCredentialsProvider;
+//import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
+//import org.elasticsearch.client.RestClient;
+//import org.elasticsearch.client.RestClientBuilder;
 import requests.BookRequest;
 
-import javax.net.ssl.SSLContext;
+import java.awt.print.Book;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,30 +35,14 @@ public class ElasticService {
     }
 
     private ElasticsearchClient getClient() {
-        final CredentialsProvider credentialsProvider =
-                new BasicCredentialsProvider();
-        credentialsProvider.setCredentials(AuthScope.ANY,
-                new UsernamePasswordCredentials(System.getenv("ELASTIC_USERNAME"), System.getenv("ELASTIC_PASSWORD")));
+        String serverUrl = "https://localhost:" + System.getenv("ELASTIC_PORT_HTTP");
+//        String apiKey = "RUNrMXlKc0JLNktGVFpkZEZXdE06UHVBbE1ISWl3a0s2QlFVZU8yOVlfQQ==";
+        String apiKey = "RnlsTHlKc0JLNktGVFpkZGFHdXA6ejA2ZnBfbS1fNUw0V1lpdnFGdzkwZw==";
 
-        RestClientBuilder builder = RestClient.builder(
-                new HttpHost(System.getenv("ELASTIC_IP_HTTP"), Integer.parseInt(System.getenv("ELASTIC_PORT_HTTP")), System.getenv("ELASTIC_SCHEME")));
-
-        if(System.getenv("ELASTIC_USE_CREDENTIALS").equals("1"))
-        {
-            builder.setHttpClientConfigCallback(httpClientBuilder -> httpClientBuilder
-                    .setDefaultCredentialsProvider(credentialsProvider));
-        }
-
-
-        // Create the low-level client
-        RestClient restClient = builder.build();
-
-        // Create the transport with a Jackson mapper
-        ElasticsearchTransport transport = new RestClientTransport(
-                restClient, new JacksonJsonpMapper());
-
-        // And create the API client
-        return new ElasticsearchClient(transport);
+        return ElasticsearchClient.of(b -> b
+                .host(serverUrl)
+                .apiKey(apiKey)
+        );
     }
 
     public boolean index(String id, Object document, String index) throws IOException {
@@ -81,15 +65,19 @@ public class ElasticService {
         return returnValue;
     }
 
-    public <T> T get(String index, String id, Class<T> documentClass) throws IOException {
+    public <T> T get(String index, String id, Class<T> documentClass) {
         GetRequest getRequest = new GetRequest
                 .Builder()
                 .index(index)
                 .id(id)
                 .build();
 
-        GetResponse<T> response = client.get(getRequest, documentClass);
-        return response.source();
+        try {
+            GetResponse<T> response = client.get(getRequest, documentClass);
+            return response.source();
+        } catch (IOException ex) {
+            return null;
+        }
     }
 
     public boolean delete(String index, String id) throws IOException {
