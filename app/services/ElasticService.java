@@ -35,9 +35,8 @@ public class ElasticService {
     }
 
     private ElasticsearchClient getClient() {
-        String serverUrl = "https://localhost:" + System.getenv("ELASTIC_PORT_HTTP");
-//        String apiKey = "RUNrMXlKc0JLNktGVFpkZEZXdE06UHVBbE1ISWl3a0s2QlFVZU8yOVlfQQ==";
-        String apiKey = "RnlsTHlKc0JLNktGVFpkZGFHdXA6ejA2ZnBfbS1fNUw0V1lpdnFGdzkwZw==";
+        String serverUrl = "https://" + System.getenv("ELASTIC_IP_HTTP") + ":" + System.getenv("ELASTIC_PORT_HTTP");
+        String apiKey = System.getenv("ELASTIC_API_KEY");
 
         return ElasticsearchClient.of(b -> b
                 .host(serverUrl)

@@ -1,0 +1,17 @@
+# sbt 1.12.0 path
+export PATH=
+
+# java 25.0.1 path
+export PATH=
+
+export PORT=
+
+export ELASTIC_IP_HTTP=
+export ELASTIC_PORT_HTTP=
+export ELASTIC_INDEX_BOOKS=
+export ELASTIC_API_KEY=
+
+export APPLICATION_SECRET=
+
+export REPO_VERSION=
+export REPO_NAME=
