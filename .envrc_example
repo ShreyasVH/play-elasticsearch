@@ -4,6 +4,9 @@ export PATH=
 # java 25.0.1 path
 export PATH=
 
+# jq path
+export PATH=
+
 export PORT=
 
 export ELASTIC_IP_HTTP=
