@@ -32,7 +32,7 @@ public class IndexController extends Controller {
 	}
 
 	public Result get(Http.Request request, String id) throws IOException {
-		return ok(Json.toJson(elasticService.get("books", id, BookIndex.class)));
+		return ok(Json.toJson(elasticService.get(System.getenv("ELASTIC_INDEX_BOOKS"), id, BookIndex.class)));
 	}
 
 	public Result search(Http.Request request, String author)
@@ -50,7 +50,7 @@ public class IndexController extends Controller {
 		 )));
 
 		 SearchRequest searchRequest = SearchRequest.of(b -> b
-				 .index("books")
+				 .index(System.getenv("ELASTIC_INDEX_BOOKS"))
 				 .query(query.build()._toQuery()
 			 )
 		 );
@@ -100,9 +100,34 @@ public class IndexController extends Controller {
 		return ok("POST REQUEST with payload: " + request.body().asJson().toString());
 	}
 
+	public Result put(Http.Request request, String id)
+	{
+		BookRequest bookRequest = null;
+		try {
+			bookRequest = Utils.convertObject(request.body().asJson(), BookRequest.class);
+		} catch (Exception ex) {
+			String sh = "sh";
+			ex.printStackTrace();
+			throw ex;
+		}
+
+		BookIndex bookIndex = elasticService.get(System.getenv("ELASTIC_INDEX_BOOKS"), id, BookIndex.class);
+
+		try {
+			bookIndex.setName(bookRequest.getName());
+			bookIndex.setAuthor(bookRequest.getAuthor());
+			elasticService.index(id, bookIndex, System.getenv("ELASTIC_INDEX_BOOKS"));
+		} catch (Exception ex) {
+			String sh = "sh";
+			ex.printStackTrace();
+		}
+
+		return ok("POST REQUEST with payload: " + request.body().asJson().toString());
+	}
+
 	public Result delete(Http.Request request, String id) throws IOException
 	{
-		elasticService.delete("books", id);
+		elasticService.delete(System.getenv("ELASTIC_INDEX_BOOKS"), id);
 		return ok("DELETE REQUEST");
 	}
 }

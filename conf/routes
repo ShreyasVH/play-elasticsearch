@@ -2,4 +2,5 @@ GET		/v1/books/:id			controllers.IndexController.get(request : Request, id : Str
 GET		/v1/books			controllers.IndexController.getAll(request : Request)
 GET		/search			controllers.IndexController.search(request : Request, author : String)
 POST	/v1/books			controllers.IndexController.post(request : Request)
-DELETE	/api			controllers.IndexController.delete(request : Request, id: String)
+PUT	    /v1/books/:id			controllers.IndexController.put(request : Request, id: String)
+DELETE	/v1/books/:id			controllers.IndexController.delete(request : Request, id: String)
