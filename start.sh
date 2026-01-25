@@ -1,1 +1,1 @@
-sbt -jvm-debug 9000 "run $PORT"
+sbt "run $PORT"

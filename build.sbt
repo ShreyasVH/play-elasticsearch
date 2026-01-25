@@ -6,7 +6,6 @@ scalaVersion := "2.13.18"
 
 libraryDependencies += guice
 libraryDependencies += "co.elastic.clients" % "elasticsearch-java" % "9.2.3"
-//libraryDependencies += "com.fasterxml.jackson.core" % "jackson-databind" % "2.14.0"
 libraryDependencies += "org.projectlombok" % "lombok" % "1.18.42" % "provided"
 
 val jacksonV = "2.14.3"
