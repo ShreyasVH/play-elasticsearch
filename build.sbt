@@ -2,10 +2,10 @@ name := "play-elastic-search"
 
 version := "1.0.0"
 
-scalaVersion := "2.13.18"
+scalaVersion := "3.8.1"
 
 libraryDependencies += guice
-libraryDependencies += "co.elastic.clients" % "elasticsearch-java" % "9.2.3"
+libraryDependencies += "co.elastic.clients" % "elasticsearch-java" % "9.2.4"
 libraryDependencies += "org.projectlombok" % "lombok" % "1.18.42" % "provided"
 
 val jacksonV = "2.14.3"
