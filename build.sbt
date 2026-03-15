@@ -5,7 +5,7 @@ version := "1.0.0"
 scalaVersion := "3.8.2"
 
 libraryDependencies += guice
-libraryDependencies += "co.elastic.clients" % "elasticsearch-java" % "9.3.0"
+libraryDependencies += "co.elastic.clients" % "elasticsearch-java" % "9.3.2"
 libraryDependencies += "org.projectlombok" % "lombok" % "1.18.42" % "provided"
 
 val jacksonV = "2.14.3"
