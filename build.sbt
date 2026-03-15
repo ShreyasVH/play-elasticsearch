@@ -2,7 +2,7 @@ name := "play-elastic-search"
 
 version := "1.0.0"
 
-scalaVersion := "3.8.1"
+scalaVersion := "3.8.2"
 
 libraryDependencies += guice
 libraryDependencies += "co.elastic.clients" % "elasticsearch-java" % "9.3.0"
