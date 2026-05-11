@@ -1,7 +1,7 @@
 # sbt 1.12.0 path
 export PATH=
 
-# java 25.0.1 path
+# java 26.0.1 path
 export PATH=
 
 # jq path
