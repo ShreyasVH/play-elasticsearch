@@ -5,7 +5,7 @@ export PATH=
 export PATH=
 export JAVA_HOME=
 
-# jq 1.8.1 path
+# jq 1.8.2 path
 export PATH=
 
 export PORT=
