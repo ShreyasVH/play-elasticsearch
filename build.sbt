@@ -8,7 +8,7 @@ libraryDependencies += guice
 libraryDependencies += "co.elastic.clients" % "elasticsearch-java" % "9.5.3"
 libraryDependencies += "org.projectlombok" % "lombok" % "1.18.48" % "provided"
 
-val pekkoVersion = "1.6.0"
+val pekkoVersion = "1.7.0"
 
 // Pekko dependencies used by Play
 libraryDependencies ++= Seq(
