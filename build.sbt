@@ -2,13 +2,13 @@ name := "play-elastic-search"
 
 version := "1.0.0"
 
-scalaVersion := "3.8.4"
+scalaVersion := "3.9.0"
 
 libraryDependencies += guice
-libraryDependencies += "co.elastic.clients" % "elasticsearch-java" % "9.5.1"
-libraryDependencies += "org.projectlombok" % "lombok" % "1.18.46" % "provided"
+libraryDependencies += "co.elastic.clients" % "elasticsearch-java" % "9.5.3"
+libraryDependencies += "org.projectlombok" % "lombok" % "1.18.48" % "provided"
 
-val pekkoVersion = "1.6.0"
+val pekkoVersion = "1.7.0"
 
 // Pekko dependencies used by Play
 libraryDependencies ++= Seq(
